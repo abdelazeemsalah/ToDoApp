@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head>
+      <title>AngularJS</title>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.js"></script>
+       
+      <script th:src="@{/main.js}"></script>
+      <link th:href="@{/main.css}" rel="stylesheet" />
+       
+      </head>
+   <body ng-app="TaskManagement" ng-controller="TaskController">
+      <h3>
+         CRUD: Spring Boot + Rest + AngularJS
+      </h3>
+      <form ng-submit="submitTask()">
+         <table border="0">
+
+            <tr>
+               <td>Task Description</td>
+               <td><input type="text" ng-model="taskObject.description" /></td>
+            </tr>
+            <tr>
+               <td>Task Status</td>
+               <td><select ng-model="taskObject.status" ng-options="status.statusName for status in statusList"></select></td>
+            </tr>
+            <tr>
+               <td>Task Date</td>
+               <td><input type="date" ng-model="taskObject.creationDate" /></td>
+            </tr>
+            <tr>
+               <td colspan="2">
+                  <input type="submit" value="Submit" class="blue-button" />
+               </td>
+            </tr>
+         </table>
+      </form>
+      <br/>
+      <a class="create-button" ng-click="createTask()">Create Task</a>
+      
+      <ul>
+      <li >
+      White background for new and assigned tasks  
+      </li>
+      <li style="background-color: yellow;">
+      Yellow background for pending task  
+      </li>
+        <li style="background-color: red;">
+      Red background for Canceled task  
+      </li>
+       <li style="background-color: green;">
+      Green background for Completed task  
+      </li>
+      </ul>
+      <table border="1">
+         <tr>
+            
+            <th>Description</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Edit</th>
+            <th>Delete</th>
+         </tr>
+         <!-- $scope.employees -->
+         <tr ng-repeat="task in tasks">
+            
+            <td style="background-color: {{ task.status.statusName=='Pending' ?'yellow':task.status.statusName=='canceled' ?'red' :task.status.statusName=='completed' ?'green':'white'}}"> {{ task.description }}</td>
+            <td  style="background-color: {{ task.status.statusName=='Pending' ?'yellow':task.status.statusName=='canceled' ?'red' :task.status.statusName=='completed' ?'green':'white'}}">{{ task.status.statusName }}</td>
+             <td style="background-color: {{ task.status.statusName=='Pending' ?'yellow':task.status.statusName=='canceled' ?'red' :task.status.statusName=='completed' ?'green':'white'}}">{{ task.creationDate}}</td>
+            <td>
+            <a ng-click="editTask(task)" class="edit-button">Edit</a>
+            </td>
+            <td>
+            <a ng-click="deleteTask(task)" class="delete-button">Delete</a>
+            </td>
+         </tr>
+      </table>
+   </body>
+</html>
